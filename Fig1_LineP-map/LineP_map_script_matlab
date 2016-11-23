@@ -1,0 +1,31 @@
+
+
+clc 
+clear all
+cd ('path to folder with the packages');
+
+% defining coordinates for the map and for the station names to be placed
+% on the map
+stn = ['P4','P12','P16','P20','P26']; % sampling stations    
+lat = [48.65 48.96 49.28 49.56 50.00];
+lon = [-126.67 -130.67 -134.67 -138.66 -145.01];
+t_lat = [47.7 48.0 48.3 48.5 49.0];
+t_lon = [-126.9 -130.67 -134.9 -139 -145.3];
+
+
+figure
+m_proj('mercator','lon',[-180 -120],'lat',[43 60]);
+m_tbase('contour',[0: -1000: -5000], 'linecolor', [0.7 0.7 0.7] );
+m_coast('patch',[.8 .8 .8],'edgecolor','k');
+m_gshhs_h('patch',[0.5 0.5 0.5]);
+m_grid;
+set(gcf,'color','w');
+
+
+% adding station labels and line to the transect
+hold on
+m_line(lon,lat,'LineWidth',2,'marker','o','markersize',5,'color',[1 1 1],'markeredgecolor', 'k','markerfacecolor',[0 0 0],'linestyle','none');
+m_text(t_lon,t_lat,{'P4','P12','P16','P20','P26'},'fontsize',7,'FontWeight','bold');
+
+
+
