@@ -2,7 +2,7 @@ library(cowplot)
 library(tidyverse)
 
 
-data <-read_csv('C:/Users/Jeff/Desktop/Ania_coding/Matlab_Oceanographic_data/Cu_NPacific-Fig5-MS.csv')
+data <-read_csv('C:/Users/Jeff/Desktop/Ania_coding/DCu_LineP-Subarctic-Pacific/Fig5_Cu-studies-in-NPacific-profiles/Cu_NPacific-Fig5-MS.csv')
 
 data$Station <- as.factor(data$Station)
 data$Ref<- as.factor(data$Ref)
@@ -21,12 +21,15 @@ p1 <- reg1_subset %>%
   scale_x_continuous(limits=c(1.1,4.9))+
 	ylab("Depth (m)")+
 	xlab("DCu (nM)")+
+	guides(shape=guide_legend(override.aes = list(size=8)))+
   theme_bw()+
-	theme(axis.text = element_text(size=20),
-				axis.title.x = element_text(size = 20),
-				legend.text = element_text(size=16),
+	theme(axis.title.y = element_blank(),
+				legend.title=element_text(size=18),
+				legend.text = element_text(size=19),
+				axis.title.x = element_text(size=20),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
+				axis.text = element_text(size=20),
 				legend.position = c(.25,.15))
 
 p1 <- ggdraw(switch_axis_position(p1, axis= 'x'))
@@ -44,13 +47,15 @@ p2 <- reg2_subset %>%
   scale_y_reverse(limits=c(6000,0))+
   scale_x_continuous(limits=c(1.1,4.9))+
   xlab("DCu (nM)")+
+	guides(shape=guide_legend(override.aes = list(size=8)))+
   theme_bw()+
-	theme(axis.text = element_text(size=20),
-				axis.title.x = element_text(size = 20),
-				axis.title.y = element_blank(),
-				legend.text = element_text(size=16),
+	theme(axis.title.y = element_blank(),
+				legend.title=element_text(size=18),
+				legend.text = element_text(size=19),
+				axis.title.x = element_text(size=20),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
+				axis.text = element_text(size=20),
 				legend.position = c(.25,.15))
 
 p2 <-ggdraw(switch_axis_position(p2, axis= 'x'))
@@ -67,13 +72,15 @@ p3 <- reg3_subset %>%
   scale_y_reverse(limits=c(6000,0))+
   scale_x_continuous(limits=c(1.1,4.9))+
   xlab("DCu (nM)")+
+	guides(shape=guide_legend(override.aes = list(size=8)))+
   theme_bw()+
-	theme(axis.text = element_text(size=20),
-				axis.title.x = element_text(size = 20),
-				axis.title.y = element_blank(),
-				legend.text = element_text(size=16),
+	theme(axis.title.y = element_blank(),
+				legend.title=element_text(size=18),
+				legend.text = element_text(size=19),
+				axis.title.x = element_text(size=20),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
+				axis.text = element_text(size=20),
 				legend.position = c(.45,.17))
 
 p3 <-ggdraw(switch_axis_position(p3, axis= 'x'))
@@ -91,13 +98,15 @@ p4 <- reg4_subset %>%
   scale_y_reverse(limits=c(6000,0))+
   scale_x_continuous(limits=c(1.1,4.9))+
   xlab("DCu (nM)")+
+	guides(shape=guide_legend(override.aes = list(size=8)))+
   theme_bw()+
-	theme(axis.text = element_text(size=20),
-				axis.title.x = element_text (size = 20),
-				axis.title.y = element_blank(),
-				legend.text = element_text(size=16),
+	theme(axis.title.y = element_blank(),
+				legend.title=element_text(size=18),
+				legend.text = element_text(size=19),
+				axis.title.x = element_text(size=20),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
+				axis.text = element_text(size=20),
 				legend.position = c(.25,.15))
 
 p4 <-ggdraw(switch_axis_position(p4, axis= 'x'))
@@ -113,14 +122,16 @@ p5 <- reg5_subset %>%
   scale_shape_manual(labels = c("T6,Martin et al 1989", "T6,Coale & Bruland 1980","17"),values=c(5, 8, 16))+
   scale_y_reverse(limits=c(6000,0))+
   scale_x_continuous(limits=c(1.1,4.9))+
+	guides(shape=guide_legend(override.aes = list(size=8)))+
   xlab("DCu (nM)")+
   theme_bw()+
-	theme(axis.text = element_text(size=20),
+	theme(axis.title.y = element_blank(),
+				legend.title=element_text(size=18),
+				legend.text = element_text(size=19),
 				axis.title.x = element_text(size=20),
-				axis.title.y = element_blank(),
-				legend.text = element_text(size=16),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
+				axis.text = element_text(size=20),
 				legend.position = c(.45,.17))
 
 p5 <-ggdraw(switch_axis_position(p5, axis= 'x'))
@@ -136,15 +147,17 @@ p6 <- reg6_subset %>%
   scale_shape_manual(values=c(4, 17))+
   scale_y_reverse(limits=c(7500,0))+
   scale_x_continuous(limits=c(0,6.5))+
+	guides(shape=guide_legend(override.aes = list(size=8)))+
   xlab("DCu (nM)")+
-	ylab("Depth (m)")
+	ylab("Depth (m)")+
   theme_bw()+
-	theme(axis.text = element_text(size=20),
+	theme(axis.title.y = element_blank(),
+				legend.title=element_text(size=18),
+				legend.text = element_text(size=19),
 				axis.title.x = element_text(size=20),
-				axis.title.y = element_text(size=20),
-				legend.text = element_text(size=18),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
+				axis.text = element_text(size=20),
 				legend.position = c(.25,.15))
 
 p6 <-ggdraw(switch_axis_position(p6, axis= 'x'))
@@ -160,11 +173,12 @@ p7 <- reg7_subset %>%
 	scale_shape_manual(labels = c("202","H17, Bruland, 1980","SAFe, Biller&Bruland, 2012"),values=c(4, 6, 11))+
   scale_y_reverse(limits=c(7500,0))+
   scale_x_continuous(limits=c(0,6.5))+
-	guides(shape=guide_legend(override.aes = list(size=12)))+
+	guides(shape=guide_legend(override.aes = list(size=8)))+
 	xlab("DCu (nM)")+
   theme_bw()+
   theme(axis.title.y = element_blank(),
-  			legend.text = element_text(size=18),
+  			legend.title=element_text(size=18),
+  			legend.text = element_text(size=19),
   			axis.title.x = element_text(size=20),
   	    panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
@@ -185,6 +199,7 @@ plots <- plot_grid (p1,p2,p3,p4,p5,p6,p7,
 
 
 save_plot("Fig5_MS.tiff",plots, ncol = 5, nrow = 2,base_height = 7, base_width = 5, dpi=1000)
+save_plot("Fig5_MS.pdf",plots, ncol = 5, nrow = 2,base_height = 7, base_width = 5, dpi=1000)
 #save_plot("Fig5_MS.pdf",plots, ncol = 5, nrow = 2,base_height = 4.5, base_width = 3.5, dpi=1200)
 #save_plot("Fig5_MS.eps",plots, ncol = 5, nrow = 2,base_height = 4.5, base_width = 3.5, dpi=1200)
 
