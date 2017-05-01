@@ -1,208 +1,200 @@
+#Figure 5 of the manuscript
+
+# load packages
 library(cowplot)
 library(tidyverse)
 
+# load the dataset
+data <-read_csv('C:/Users/Ania/DCu_LineP-Subarctic-Pacific/Fig5_Cu-studies-in-NPacific-profiles/Cu_NPacific-Fig5-MS.csv')
+#data <-read_csv("~/Fig5_Cu-studies-in-NPacific-profiles/Cu_NPacific-Fig5-MS.csv")
 
-data <-read_csv('C:/Users/Jeff/Desktop/Ania_coding/DCu_LineP-Subarctic-Pacific/Fig5_Cu-studies-in-NPacific-profiles/Cu_NPacific-Fig5-MS.csv')
-
+# set station and references as factors
 data$Station <- as.factor(data$Station)
 data$Ref<- as.factor(data$Ref)
-#glimpse(data)
 
-# subsetting data for region 1
-reg1_subset <- data %>%
-  filter(Station %in% c("5", "6", "CR27"))
 
-p1 <- reg1_subset %>%
+#~~~~~~~plotting region 1~~~~~~~~~~~~~~~~
+
+#subsetting data for region 1
+p1 <- data %>%
+	filter(Station %in% c("5", "6", "CR27","TR15"))%>%
   ggplot(aes(x=dCu, y=Depth, group=Station)) +
   geom_path(size=0.2)+
-  geom_point(aes(shape=Station), size=6)+
-  scale_shape_manual(values=c(1, 2, 17))+
-  scale_y_reverse(limits=c(6000,0))+
-  scale_x_continuous(limits=c(1.1,4.9))+
+  geom_point(aes(shape=Station,color=Station), size=3)+
+	scale_color_manual(name="Region 1",labels = c("Stn 5, Tanita et al. 2015"," Stn 6, Moffett & Dupont, 2007",
+																							 " CR27, Takano et al. 2014","TR15, Takano et al. 2014"),
+										values=c("#000000","#000000","#000000","#999999"))+
+  scale_shape_manual(name="Region 1",labels = c("Stn 5, Tanita et al. 2015"," Stn 6, Moffett & Dupont, 2007",
+																							" CR27, Takano et al. 2014","TR15, Takano et al. 2014"),
+  									                            values=c(1,2,17,17))+
+  scale_y_reverse(expand=c(0.01,0),limits=c(6700,0), breaks=seq(0,6700,by=1000))+
+  scale_x_continuous(position="top",limits=c(0.8,4.9))+
+	xlab (expression("dCu"~(nmol~kg^{-1})))+
+	guides(shape=guide_legend(override.aes = list(size=4)))+
 	ylab("Depth (m)")+
-	xlab("DCu (nM)")+
-	guides(shape=guide_legend(override.aes = list(size=8)))+
-  theme_bw()+
-	theme(axis.title.y = element_blank(),
-				legend.title=element_text(size=18),
-				legend.text = element_text(size=19),
-				axis.title.x = element_text(size=20),
+	theme_bw()+
+	theme(legend.title=element_text(size=9),
+				legend.text = element_text(size=9),
+#				panel.border = element_rect(colour = "black", fill=NA, size=1),
+				axis.title = element_text(size=14),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
-				axis.text = element_text(size=20),
-				legend.position = c(.25,.15))
+				axis.text = element_text(size=14),
+				legend.position = c(.41,.17))
 
-p1 <- ggdraw(switch_axis_position(p1, axis= 'x'))
+#~~~~~~~~~~~~ plotting region 2~~~~~~~~~~~~~~~~~~
 
-
-# region 2
-reg2_subset <-data%>%
-  filter(Station %in% c("4","19"))
-
-p2 <- reg2_subset %>%
+p2 <- data %>%
+	filter(Station %in% c("4","19"))%>%
   ggplot(aes(x=dCu, y=Depth, group=Station)) +
   geom_path(size=0.2)+
-  geom_point(aes(shape=Station), size=6)+
-  scale_shape_manual(values=c(16,2))+
-  scale_y_reverse(limits=c(6000,0))+
-  scale_x_continuous(limits=c(1.1,4.9))+
-  xlab("DCu (nM)")+
-	guides(shape=guide_legend(override.aes = list(size=8)))+
-  theme_bw()+
-	theme(axis.title.y = element_blank(),
-				legend.title=element_text(size=18),
-				legend.text = element_text(size=19),
-				axis.title.x = element_text(size=20),
+  geom_point(aes(shape=Station), size=3)+
+  scale_shape_manual(name="Region 2",labels = 
+  									 	c("Stn 19, Fujishima et al. 2001"," Stn 4, Moffett & Dupont, 2007"),values=c(16,2))+
+  scale_y_reverse(expand=c(0.01,0),limits=c(6500,0), breaks=seq(0,6500,by=1000))+
+  scale_x_continuous(position="top",limits=c(0.8,4.9))+
+  xlab (expression("dCu"~(nmol~kg^{-1})))+
+	guides(shape=guide_legend(override.aes = list(size=4)))+
+	ylab("Depth(m)")+
+	theme_bw()+
+	theme(legend.title=element_text(size=9),
+				legend.text = element_text(size=9),
+#				panel.border = element_rect(colour = "black", fill=NA, size=1),
+				axis.title = element_text(size=14),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
-				axis.text = element_text(size=20),
-				legend.position = c(.25,.15))
+				axis.text = element_text(size=14),
+				legend.position = c(.44,.17))
 
-p2 <-ggdraw(switch_axis_position(p2, axis= 'x'))
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ region 3~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# region 3
-reg3_subset <-data%>%
-  filter(Station %in% c("T7a","T7b","P26"))
-
-p3 <- reg3_subset %>%
+p3 <- data %>%
+	filter(Station %in% c("T7a","T7b","P26"))%>%
   ggplot(aes(x=dCu, y=Depth, group=Station)) +
   geom_path(size=0.2)+
-  geom_point(aes(shape=Station), size=6)+
-  scale_shape_manual(name= "Station OSP",labels = c("This study","Martin et al 1989", "Coale & Bruland 1980"),values=c(0, 5, 8))+
-  scale_y_reverse(limits=c(6000,0))+
-  scale_x_continuous(limits=c(1.1,4.9))+
-  xlab("DCu (nM)")+
-	guides(shape=guide_legend(override.aes = list(size=8)))+
-  theme_bw()+
-	theme(axis.title.y = element_blank(),
-				legend.title=element_text(size=18),
-				legend.text = element_text(size=19),
-				axis.title.x = element_text(size=20),
+  geom_point(aes(shape=Station), size=3)+
+  scale_shape_manual(name= "Region 3,OSP",
+  									 labels = c("This study","Martin et al. 1989", "Coale & Bruland 1980"),
+  									 values=c(0, 5, 8))+
+	scale_y_reverse(expand=c(0.01,0),limits=c(6500,0), breaks=seq(0,6500,by=1000))+
+  scale_x_continuous(position="top",limits=c(0.8,4.9))+
+	xlab (expression("dCu"~(nmol~kg^{-1})))+
+	guides(shape=guide_legend(override.aes = list(size=4)))+
+	ylab("Depth(m)")+
+	theme_bw()+
+	theme(legend.title=element_text(size=9),
+				legend.text = element_text(size=9),
+#				panel.border = element_rect(colour = "black", fill=NA, size=1),
+				axis.title = element_text(size=14),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
-				axis.text = element_text(size=20),
-				legend.position = c(.45,.17))
+				axis.text = element_text(size=14),
+				legend.position = c(.35,.15))
 
-p3 <-ggdraw(switch_axis_position(p3, axis= 'x'))
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~region4~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#region4
-
-reg4_subset <-data%>%
-  filter(Station %in% c("BD21","P12"))
-
-p4 <- reg4_subset %>%
+p4 <- data %>%
+	filter(Station %in% c("BD21","P12"))%>%
   ggplot(aes(x=dCu, y=Depth, group=Station)) +
   geom_path(size=0.2)+
-  geom_point(aes(shape=Station), size=6)+
-  scale_shape_manual(values=c(17, 0))+
-  scale_y_reverse(limits=c(6000,0))+
-  scale_x_continuous(limits=c(1.1,4.9))+
-  xlab("DCu (nM)")+
-	guides(shape=guide_legend(override.aes = list(size=8)))+
-  theme_bw()+
-	theme(axis.title.y = element_blank(),
-				legend.title=element_text(size=18),
-				legend.text = element_text(size=19),
-				axis.title.x = element_text(size=20),
+  geom_point(aes(shape=Station), size=3)+
+  	scale_shape_manual(name= "Region 4",
+  										 labels = c("Stn BD21, Takano et al. 2014","Stn P12, This study"),
+  										 values=c(17, 0))+
+  	scale_y_reverse(expand=c(0.01,0),limits=c(6500,0), breaks=seq(0,6500,by=1000))+
+  	scale_x_continuous(position="top",limits=c(1.1,4.9))+
+  	xlab (expression("dCu"~(nmol~kg^{-1})))+
+	guides(shape=guide_legend(override.aes = list(size=4)))+
+	ylab("Depth(m)")+
+	theme_bw()+
+	theme(legend.title=element_text(size=9),
+				legend.text = element_text(size=9),
+#				panel.border = element_rect(colour = "black", fill=NA, size=1),
+				axis.title = element_text(size=14),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
-				axis.text = element_text(size=20),
-				legend.position = c(.25,.15))
+				axis.text = element_text(size=14),
+				legend.position = c(.43,.17))
 
-p4 <-ggdraw(switch_axis_position(p4, axis= 'x'))
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~region 5~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# region 5
-reg5_subset <-data%>%
-  filter(Station %in% c("T6a","T6b","17"))
-
-p5 <- reg5_subset %>%
+p5 <- data%>%
+	filter(Station %in% c("T6a","T6b","17"))%>%
   ggplot(aes(x=dCu, y=Depth, group=Station)) +
   geom_path(size=0.2)+
-  geom_point(aes(shape=Station), size=6)+
-  scale_shape_manual(labels = c("T6,Martin et al 1989", "T6,Coale & Bruland 1980","17"),values=c(5, 8, 16))+
-  scale_y_reverse(limits=c(6000,0))+
-  scale_x_continuous(limits=c(1.1,4.9))+
-	guides(shape=guide_legend(override.aes = list(size=8)))+
-  xlab("DCu (nM)")+
-  theme_bw()+
-	theme(axis.title.y = element_blank(),
-				legend.title=element_text(size=18),
-				legend.text = element_text(size=19),
-				axis.title.x = element_text(size=20),
+  geom_point(aes(shape=Station), size=3)+
+  scale_shape_manual( name="Region 5",
+  	                 labels = c("Stn T6,Martin et al. 1989", "Stn T6,Coale & Bruland 1980","Stn 17, Fujishima et al. 2001"),
+  									 values=c(5, 8, 16))+
+  scale_y_reverse(expand=c(0.01,0),limits=c(6500,0), breaks=seq(0,6500,by=1000))+
+	scale_x_continuous(position="top",limits=c(0.8,4.9))+
+	xlab (expression("dCu"~(nmol~kg^{-1})))+
+	guides(shape=guide_legend(override.aes = list(size=4)))+
+	ylab("Depth(m)")+
+	theme_bw()+
+	theme(legend.title=element_text(size=9),
+				legend.text = element_text(size=9),
+#				panel.border = element_rect(colour = "black", fill=NA, size=1),
+				axis.title = element_text(size=14),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
-				axis.text = element_text(size=20),
-				legend.position = c(.45,.17))
+				axis.text = element_text(size=14),
+				legend.position = c(.43,.16))
 
-p5 <-ggdraw(switch_axis_position(p5, axis= 'x'))
+#~~~~~~~~~~~~~~~~~~~~~~~~region 6~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# region 5
-reg6_subset <-data%>%
-  filter(Station %in% c("226","TR7"))
-
-p6 <- reg6_subset %>%
+p7 <- data %>%
+	filter(Station %in% c("202","H17bru","SAFe"))%>%
   ggplot(aes(x=dCu, y=Depth, group=Station)) +
   geom_path(size=0.2)+
-  geom_point(aes(shape=Station), size=6)+
-  scale_shape_manual(values=c(4, 17))+
-  scale_y_reverse(limits=c(7500,0))+
-  scale_x_continuous(limits=c(0,6.5))+
-	guides(shape=guide_legend(override.aes = list(size=8)))+
-  xlab("DCu (nM)")+
-	ylab("Depth (m)")+
-  theme_bw()+
-	theme(axis.title.y = element_blank(),
-				legend.title=element_text(size=18),
-				legend.text = element_text(size=19),
-				axis.title.x = element_text(size=20),
+  geom_point(aes(shape=Station), size=3)+
+	scale_shape_manual(name="Region 6",
+		                 labels = c("Stn 202, Boyle et al. 1977",
+		                 					 " Stn H17, Bruland, 1980","SAFe, Biller & Bruland, 2012"),values=c(4, 6, 13))+
+	scale_y_reverse(expand=c(0.01,0),limits=c(8000,0), breaks=seq(0,8000,by=1000))+
+	scale_x_continuous(position="top",limits=c(0.3,6.6))+
+	xlab (expression("dCu"~(nmol~kg^{-1})))+
+	guides(shape=guide_legend(override.aes = list(size=4)))+
+	ylab("Depth(m)")+
+	theme_bw()+
+	theme(legend.title=element_text(size=9),
+				legend.text = element_text(size=9),
+	#			panel.border = element_rect(colour = "black", fill=NA, size=1),
+				axis.title = element_text(size=14),
 				panel.grid.major = element_blank(),
 				panel.grid.minor = element_blank(),
-				axis.text = element_text(size=20),
-				legend.position = c(.25,.15))
+				axis.text = element_text(size=14),
+				legend.position = c(.43,.16))
 
-p6 <-ggdraw(switch_axis_position(p6, axis= 'x'))
+#~~~~~~~~~~~~~~~~~~~~~~~~ region 7~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+p6 <- data %>%
+	filter(Station %in% c("226","TR7"))%>%
+	ggplot(aes(x=dCu, y=Depth, group=Station)) +
+	geom_path(size=0.3)+
+	geom_point(aes(shape=Station), size=3)+
+	scale_shape_manual(name="Region 7",
+										 labels=c("Stn 226, Boyle et al. 1997","Stn TR7, Takano et al. 2014"),
+										 values=c(4, 17))+
+	scale_y_reverse(expand=c(0.01,0),limits=c(8000,0), breaks=seq(0,8000,by=1000))+
+	scale_x_continuous(position="top",limits=c(0.3,6.6))+
+	xlab (expression("dCu"~(nmol~kg^{-1})))+
+	guides(shape=guide_legend(override.aes = list(size=4)))+
+	ylab("Depth(m)")+
+	theme_bw()+
+	theme(legend.title=element_text(size=9),
+				legend.text = element_text(size=9),
+	#			panel.border = element_rect(colour = "black", fill=NA, size=1),
+				axis.title = element_text(size=14),
+				panel.grid.major = element_blank(),
+				panel.grid.minor = element_blank(),
+				axis.text = element_text(size=14),
+				legend.position = c(.43,.16))
 
-# region 5
-reg7_subset <-data%>%
-  filter(Station %in% c("202","H17bru","SAFe"))
+# Orientating the plots + saving the plots
 
-p7 <- reg7_subset %>%
-  ggplot(aes(x=dCu, y=Depth, group=Station)) +
-  geom_path(size=0.2)+
-  geom_point(aes(shape=Station), size=6)+
-	scale_shape_manual(labels = c("202","H17, Bruland, 1980","SAFe, Biller&Bruland, 2012"),values=c(4, 6, 11))+
-  scale_y_reverse(limits=c(7500,0))+
-  scale_x_continuous(limits=c(0,6.5))+
-	guides(shape=guide_legend(override.aes = list(size=8)))+
-	xlab("DCu (nM)")+
-  theme_bw()+
-  theme(axis.title.y = element_blank(),
-  			legend.title=element_text(size=18),
-  			legend.text = element_text(size=19),
-  			axis.title.x = element_text(size=20),
-  	    panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-  			axis.text = element_text(size=20),
-        legend.position = c(.47,.17))
+plots <- plot_grid (p1,p2,p3,p4,p5,p6,p7, ncol = 5,align = "h")
 
-p7 <-ggdraw(switch_axis_position(p7, axis= 'x'))
+save_plot("Fig5_MS.tiff",plots, ncol = 5, nrow = 2,base_height = 4.5, base_width = 3.5, dpi=900)
+save_plot("Fig5_MS.pdf",plots, ncol = 5, nrow = 2,base_height = 4.5, base_width = 3.5, dpi=1000)
+save_plot("Fig5_MS.eps",plots, ncol = 5, nrow = 2,base_height = 4.5, base_width = 3.5, dpi=1000)
 
-
-##############################################################################################
-
-# Orientating the plots
-
-
-plots <- plot_grid (p1,p2,p3,p4,p5,p6,p7,
-                   labels = c("R1","R2","R3","R4","R5","R6","R7"),
-                   ncol = 5,align = "h")
-
-
-save_plot("Fig5_MS.tiff",plots, ncol = 5, nrow = 2,base_height = 7, base_width = 5, dpi=1000)
-save_plot("Fig5_MS.pdf",plots, ncol = 5, nrow = 2,base_height = 7, base_width = 5, dpi=1000)
-#save_plot("Fig5_MS.pdf",plots, ncol = 5, nrow = 2,base_height = 4.5, base_width = 3.5, dpi=1200)
-#save_plot("Fig5_MS.eps",plots, ncol = 5, nrow = 2,base_height = 4.5, base_width = 3.5, dpi=1200)
-
-#map <-readTIFF("Fig5_map.tif")
-
-#plots <- ggdraw()+ draw_plot(map,.5,0,.5,.5)
