@@ -1,26 +1,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Readme%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% this code produces a contour plot of dissolved copper along Line P in the
-% subarctic Pacific, for top 600m with stations at whihc data was
-% collected and depths. Also overlaid are contours of phosphate concentrations
-% along the transect.The data is contained in an excell sheet. 
-% To preform this code:
-% - download the spreadhseet & the script
-% - set the workspace (cd) to where those files are
-% - save functions "xls2struct" and "gridfit" necessary to run this code
-%   in the same directory as your codes and scripts
+% This code produces a contour plot of dissolved copper along Line P in the
+% (top 600 m) - Fig.11 of the manuscript. The dataset is contained in an excell file. 
+% To preform this code you will need functions "xls2struct" and "gridfit" 
+% in the same directory as your codes and scripts
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clc
 clear all
 
-cd('C:\Users\Ania\Desktop\My Files\Work\Line_P\Line_P_2015_analysis\Matlab\MATLAB_contourplot');
-dat=xls2struct('LineP_dat_final_fixed2.xlsx');
+cd('path to your directory');
+dat=xls2struct('LineP_dataset.xlsx');
 
-% creating a subset of data that will be used to make the plot
-% to access the data in the column (here Pressure, latitude and longitude
+% creating a subset of the data that will be used to make the plot
+% to access the data in the column (here Depth, Lat and Lon
 % use dat.variable_name
-subset=find(dat.Pressure<600 & dat.long>-146 & dat.long<-125);
+subset=find(dat.Depth<600 & dat.Lon>-146 & dat.Lon<-125);
 
 % creating a mesh on which we are gridding the datapoints using built in
 % function linspace
@@ -30,19 +25,19 @@ zgrid=gridfit(dat.long(subset),dat.Pressure(subset),dat.Cu(subset),xnodes,ynodes
 contourf(xnodes,ynodes,zgrid);
 [cdat,phand]=contourf(xnodes,ynodes,zgrid);
 set(phand,'LineStyle',':');
-%set(phand,'linecol',[.8 .8 .8],'linestyl','n','levelstep',.001);
-%shading interp 
 set(gca,'ydir','reverse');
 hold on
-%plot(dat.long,dat.Pressure,'.k')
 ylabel('Depth(m)','Fontsize',12)
 xlabel('Longitude \circW','Fontsize',12)
+
+% adding color bar for the dCu
 c=colorbar;
 set(get(c,'ylabel'),'String', 'dCu(nmol kg^{-1})','Fontsize',12)
 set(gcf,'color','w');
 caxis([1.4, 3.3]);
 
-% now for phosphate
+% performing same procedure for phosphate, except that it will
+% only appear as white contours over dCu
 hold on
 xnodes1=linspace(-145.5,-126,20);
 ynodes1=linspace(0,600,20);
@@ -55,18 +50,16 @@ clabel(cdat2,phand2,'Color',[1 1 1])
 
 
 % add station labels to the contour plot
+% create a list with station names
 statlab={'P4','P12','P16','P20','P26'};
+% define position for the labels
 longlab=[-126.66,-131,-134.9,-138.9,-145];
 depthlab=[-20 -20 -20 -20 -20];
+% iterate for each station
 for i=1:numel(statlab), text(longlab(i),depthlab(i),statlab{i},'units','data','Fontsize',12)
 end
 
-%set(gcf, 'PaperUnits', 'inches');
-%x_width=10 ;
-%y_width=6;
-%set(gcf, 'PaperPosition', [0 0 x_width y_width]); %
-% saveas(gcf,'fig1.pdf')
 
-%set(gcf,'PaperOrientation','landscape');
-print(gcf, '-dpdf', '-r500','FIG11_dCu_contf.PDF');
-print('FIG11_dCu_contf.TIFF', '-dtiff', '-r500');
+% save in the format of your choice
+%print(gcf, '-dpdf', '-r500','FIG11_dCu_contf.PDF');
+%print('FIG11_dCu_contf.TIFF', '-dtiff', '-r500');
