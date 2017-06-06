@@ -1,8 +1,8 @@
-# DCu_LineP-Subarctic-Pacific
+# Introduction
 
 Welcome,
 
-This repository is to contain all of the scripts and datasets used in a study of dissolved Cu biogeochemistry along Line P in the subarctic NE Pacific. Many of those codes are not annottated well at the moment, but will be updated with descriptions soon. 
+This repository contains scripts and datasets used in a study of Cu biogeochemistry in the subarctic Northeast Pacific [Posacka et al. 2017]()
 
 Visualization for this project was done mostly in MATLAB, with some scripts in R. This is a list of scripts so far:
 
