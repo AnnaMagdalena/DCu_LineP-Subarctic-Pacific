@@ -1,7 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%README#############################################
+% a script to produce a transect map in Fig.1. You will need m_map toolbox from Rich 
+% Pawlowich's website https://www.eoas.ubc.ca/~rich/map.html. High resolution 
+% bathymetry is used here (ETOPO2), instructions on how to obtain and use with m_map
+% can be foun at Rich's website
 
 
-clc 
-clear all
 cd ('path to folder with the packages');
 
 % defining coordinates for the map and for the station names to be placed
@@ -14,7 +17,8 @@ t_lon = [-126.9 -130.67 -134.9 -139 -145.3];
 
 
 figure
-m_proj('mercator','lon',[-180 -120],'lat',[43 60]);
+m_proj('lambert','lon',[-180 -120],'lat',[43 60]);
+% if bathymetry is causing trouble, remove line starting with m_tbase
 m_tbase('contour',[0: -1000: -5000], 'linecolor', [0.7 0.7 0.7] );
 m_coast('patch',[.8 .8 .8],'edgecolor','k');
 m_gshhs_h('patch',[0.5 0.5 0.5]);
