@@ -1,20 +1,24 @@
-% nc file from GIOVANNI website of AOD : Asia- North America
+% Please go to NASA's website at https://giovanni.gsfc.nasa.gov/giovanni/ to get the netCDF files 
+% with aerosol optical thickness (AOD) data.
+% You will need a toolbox from Matlab called nctoolbox (find here https://github.com/nctoolbox/nctoolbox)
+% Fig.12 has spatialLY averaged AOD data for three years: 2010, 2011, 2012. In this code, each file is run
+% one by one and resulting plots where then combined in Adobe Illustrator.
 
-clear all
-clc
 
 cd ('path to folder with the data') 
 setup_nctoolbox
 
-% reading the nc file, 
-%aod2012=ncgeodataset('g4.timeAvgMap.MOD08_D3_6_AOD_550_Dark_Target_Deep_Blue_Combined_Mean.20100701-20100831.174W_44N_122W_61N.nc');
-%aod2012=ncgeodataset('g4.timeAvgMap.MOD08_D3_6_AOD_550_Dark_Target_Deep_Blue_Combined_Mean.20110701-20110831.174W_44N_122W_61N.nc');
-% aod2012=ncgeodataset('g4.timeAvgMap.MOD08_D3_6_AOD_550_Dark_Target_Deep_Blue_Combined_Mean.20120701-20120831.174W_44N_122W_61N.nc');
+% reading the nc file. "aod"" stands for aerosol optical thickness
+%aod=ncgeodataset('g4.timeAvgMap.MOD08_D3_6_AOD_550_Dark_Target_Deep_Blue_Combined_Mean.20100701-20100831.174W_44N_122W_61N.nc');
+
+%aod=ncgeodataset('g4.timeAvgMap.MOD08_D3_6_AOD_550_Dark_Target_Deep_Blue_Combined_Mean.20110701-20110831.174W_44N_122W_61N.nc');
+
+% aod=ncgeodataset('g4.timeAvgMap.MOD08_D3_6_AOD_550_Dark_Target_Deep_Blue_Combined_Mean.20120701-20120831.174W_44N_122W_61N.nc');
 % for instance aod2012.variables will list the variables
 
 % exracting the lats, longs & gridded AOD  from the nc dataset
-lat=double(aod2012.data('lat'));
-lon=double(aod2012.data('lon'));
+lat=double(aod.data('lat'));
+lon=double(aod.data('lon'));
 aerosol=(squeeze(double(aod2012.data('MOD08_D3_6_AOD_550_Dark_Target_Deep_Blue_Combined_Mean'))));
 aerosol(aerosol<0)= NaN;
 
@@ -38,7 +42,7 @@ m_grid('linestyle','none','box','fancy','tickdir','out','Fontsize',12);
 % color mapping of the data and setting of the axis range, a colormap from file exchange 'esa'
 % was used here, alternatively you can set your own colormap with the make a colormap toolbox
 % eg a = makeColorMap([0 0 2], [1 1 1], [1 0 0], 50); colormap(a)
-% colormap(jet(7000))
+
 
 colormap('esa');
 c=colorbar;
@@ -54,12 +58,14 @@ lon1 = [-126.67 -130.67 -134.67 -138.66 -145.01];
 t_lat = [47.7 48 48.2 48.4 49];
 t_lon = [-126.9 -130.67 -134.9 -139 -145.3];
 
-% 
+% creating a transect line connecting stations
 hline1 = m_line(lon1,lat1,'LineWidth',2,'marker','o','markersize',4,'color',[1 1 1],'markeredgecolor', 'k','markerfacecolor',[0 0 0],'linestyle','none');
+
+% adding station labels over coordinates specified in t_lon and t_lat
 m_text(t_lon,t_lat,{'P4','P12','P16','P20','P26'},'fontsize',12,'FontWeight','bold');
 hold on
 m_line(lon1,lat1);
 
-print(gcf, '-dtiff', '-r600', 'AOD2012JulAug_manuscript')
-%print(gcf, '-dpng', '-r600', 'AOD_JuneAug2011.png')
-%print(gcf, '-deps', '-r600', 'AOD_JuneAug2011.png')
+% save in the format of your choice
+% print(gcf, '-dtiff', '-r600', 'fig_name')
+
